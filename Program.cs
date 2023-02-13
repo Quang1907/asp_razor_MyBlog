@@ -8,6 +8,7 @@ namespace ASP_RAZOR_5
     {
         public static void Main(string[] args)
         {
+            // hhelo
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddDbContext<MyBlogContext>( options =>
