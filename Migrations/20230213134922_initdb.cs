@@ -28,7 +28,6 @@ namespace ASPRAZOR5.Migrations
                     table.PrimaryKey("PK_articles", x => x.Id);
                 });
 
-            // insert data
             // fake data: Bogus
             Randomizer.Seed = new Random(23234);
 
@@ -52,6 +51,7 @@ namespace ASPRAZOR5.Migrations
                 );
             }
 
+            // insert data
             // migrationBuilder.InsertData(
             //    table: "articles",
             //    columns: new[] { "Title", "Created", "Content" },

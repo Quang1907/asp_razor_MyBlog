@@ -1,0 +1,67 @@
+﻿@page
+@using ASP_RAZOR_5.Helpers
+@model ASP_RAZOR_5.Pages_Blog.IndexModel
+
+
+@{
+    ViewData["Title"] = "Trang danh sách bài viết";
+    var i = 1;
+
+
+    var pagination = new Pagination()
+            {
+                currentPage = Model.currentPage,
+                countPage = Model.countPages,
+                generateUrl = (int? p) => Url.Page("/Blog/Index", new { p = p }),
+            };
+}
+
+<h1>Trang danh sách bài viết</h1>
+<form method="get" asp-page="./Index" class="d-flex m-4">
+    <label class=" mx-3 d-flex align-items-center">Search</label>
+    <input type="search" name="SearchString" value="" class="form-control w-25 rounded-0" />
+    <button class="btn btn-primary  rounded-0 btn-sm">Submit</button>
+</form>
+
+<p>
+    <a asp-page="Create" class="btn btn-success">Tạo bài viết mới</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                STT
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Article[0].Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Article[0].Created)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Article)
+        {
+            <tr>
+                <td>
+                    @(i++)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Created)
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<partial name="_Pagination" model="@pagination"></partial>
+
