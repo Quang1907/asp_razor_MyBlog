@@ -1,6 +1,7 @@
 using ASP_RAZOR_5.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Configuration;
+using Microsoft.AspNetCore.Identity;
 
 namespace ASP_RAZOR_5
 {
@@ -8,10 +9,11 @@ namespace ASP_RAZOR_5
     {
         public static void Main(string[] args)
         {
+            // hhelo
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddDbContext<MyBlogContext>( options =>
-            {
+            {   
                 string connectString = builder.Configuration.GetConnectionString("MyBlogContext");
                 options.UseSqlServer(connectString);
             });
@@ -33,6 +35,7 @@ namespace ASP_RAZOR_5
             app.UseStaticFiles();
 
             app.UseRouting();
+                        app.UseAuthentication();;
 
             app.UseAuthorization();
 
@@ -42,3 +45,8 @@ namespace ASP_RAZOR_5
         }
     }
 }
+
+/**
+CREATE, READ, UPDATE, DELETE (CRUD)
+    dotnet aspnet-codegenerator razorpage -m ASP_RAZOR_5.Models.Article -dc ASP_RAZOR_5.Models.MyBlogContext -outDir Pages/Blog -udl --referenceScriptLibraries
+ */ 

@@ -9,6 +9,7 @@ namespace ASP_RAZOR_5.Pages
         private readonly ILogger<IndexModel> _logger;
         private readonly MyBlogContext blogContext;
 
+
         public IndexModel(ILogger<IndexModel> logger, MyBlogContext _myBlogContext )
         {
             _logger = logger;
