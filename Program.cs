@@ -52,6 +52,7 @@ namespace ASP_RAZOR_5
                 // Default SignIn settings.
                 options.SignIn.RequireConfirmedEmail = true;
                 options.SignIn.RequireConfirmedPhoneNumber = false;
+                options.SignIn.RequireConfirmedAccount = true;
 
                 // Default User settings.
                 options.User.AllowedUserNameCharacters =
@@ -62,7 +63,12 @@ namespace ASP_RAZOR_5
 
             // Add services to the container.
             builder.Services.AddRazorPages();
-
+            builder.Services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/login";
+                options.LogoutPath = "/logout";
+                options.AccessDeniedPath = "/not-accessdible";
+            });
 
             var app = builder.Build();
 
@@ -92,7 +98,8 @@ namespace ASP_RAZOR_5
 /**
 CREATE, READ, UPDATE, DELETE (CRUD)
     dotnet aspnet-codegenerator razorpage -m ASP_RAZOR_5.Models.Article -dc ASP_RAZOR_5.Models.MyBlogContext -outDir Pages/Blog -udl --referenceScriptLibraries
-    
+    dotnet aspnet-codegenerator identity -dc ASP_RAZOR_5.Models.MyBlogContext
+
     Identity:
         - Authentication: Xac dinh danh tinh -> login, logout...
         - Authorization: Xac thuc quyen truy cap
@@ -103,4 +110,6 @@ CREATE, READ, UPDATE, DELETE (CRUD)
 
     /Identity/Account/Login
     /Identity/Account/Manager
+
+
  */ 
