@@ -71,8 +71,6 @@ namespace ASP_RAZOR_5.Areas.Identity.Pages.Account
         public class InputModel
         {
 
-
-
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
@@ -87,7 +85,7 @@ namespace ASP_RAZOR_5.Areas.Identity.Pages.Account
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
             [Required]
-            [StringLength(100, ErrorMessage = "{0} phai dai tu {2} den {1} ky tu", MinimumLength = 2)]
+            [StringLength(100, MinimumLength = 2, ErrorMessage = "{0} phai dai tu {2} den {1} ky tu")]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
             public string Password { get; set; }
@@ -106,9 +104,9 @@ namespace ASP_RAZOR_5.Areas.Identity.Pages.Account
             /// This is username
             /// </summary>
             [DataType(DataType.Text)]
-            [Display( Name ="Ten Tai Khoan")]
+            [Display(Name = "Ten Tai Khoan")]
             [Required(ErrorMessage = "{0} khong duoc de trong")]
-            [StringLength(100, MinimumLength =2, ErrorMessage = "{0} phai tu {2} den {1} ky tu")]
+            [StringLength(100, MinimumLength = 2, ErrorMessage = "{0} phai tu {2} den {1} ky tu")]
             public string UserName { get; set; }
         }
 

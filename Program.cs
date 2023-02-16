@@ -38,7 +38,7 @@ namespace ASP_RAZOR_5
             {
                 // Default Lockout settings.
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
-                options.Lockout.MaxFailedAccessAttempts = 5;
+                options.Lockout.MaxFailedAccessAttempts = 3;
                 options.Lockout.AllowedForNewUsers = true;
 
                 // Default Password settings.
@@ -46,7 +46,7 @@ namespace ASP_RAZOR_5
                 options.Password.RequireLowercase = false;
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
-                options.Password.RequiredLength = 6;
+                options.Password.RequiredLength = 2;
                 options.Password.RequiredUniqueChars = 1;
 
                 // Default SignIn settings.
