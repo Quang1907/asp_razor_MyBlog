@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using ASP_RAZOR_5.Models;
 
 namespace ASP_RAZOR_5.Areas.Identity.Pages.Account
 {
@@ -85,7 +86,7 @@ namespace ASP_RAZOR_5.Areas.Identity.Pages.Account
             [EmailAddress]
             public string Email { get; set; }
         }
-        
+
         public IActionResult OnGet() => RedirectToPage("./Login");
 
         public IActionResult OnPost(string provider, string returnUrl = null)
@@ -101,13 +102,13 @@ namespace ASP_RAZOR_5.Areas.Identity.Pages.Account
             returnUrl = returnUrl ?? Url.Content("~/");
             if (remoteError != null)
             {
-                ErrorMessage = $"Error from external provider: {remoteError}";
+                ErrorMessage = $"Loi tu dich vu ngoai: {remoteError}";
                 return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
             }
             var info = await _signInManager.GetExternalLoginInfoAsync();
             if (info == null)
             {
-                ErrorMessage = "Error loading external login information.";
+                ErrorMessage = "khong tim thay dich vu ngoai";
                 return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
             }
 
@@ -115,6 +116,7 @@ namespace ASP_RAZOR_5.Areas.Identity.Pages.Account
             var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
             if (result.Succeeded)
             {
+                // account: LoginProvider
                 _logger.LogInformation("{Name} logged in with {LoginProvider} provider.", info.Principal.Identity.Name, info.LoginProvider);
                 return LocalRedirect(returnUrl);
             }
@@ -124,9 +126,12 @@ namespace ASP_RAZOR_5.Areas.Identity.Pages.Account
             }
             else
             {
+                // co tai khoan, chua lien ket => lien ket tai khoan voi dich vu ngoai
+                // chua co tai khoan => tao tai khoan, lien ket, dang nhap
                 // If the user does not have an account, then ask the user to create an account.
                 ReturnUrl = returnUrl;
                 ProviderDisplayName = info.ProviderDisplayName;
+
                 if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Email))
                 {
                     Input = new InputModel
@@ -145,12 +150,49 @@ namespace ASP_RAZOR_5.Areas.Identity.Pages.Account
             var info = await _signInManager.GetExternalLoginInfoAsync();
             if (info == null)
             {
-                ErrorMessage = "Error loading external login information during confirmation.";
+                ErrorMessage = "loi lay thong tin tu dich vu ngoai";
                 return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
             }
 
             if (ModelState.IsValid)
             {
+                //// input email
+                //var registeredUser = await _userManager.FindByEmailAsync(Input.Email);
+                //string externalEmail = null;
+                //IdentityUser externalEmailUser = null;
+
+                //// ~ Claim ~ dac tinh mo ta mot dot tuong
+                //if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Email))
+                //{
+                //    externalEmail = info.Principal.FindFirstValue(ClaimTypes.Email);
+                //}
+
+                //if (externalEmail != null)
+                //{
+                //    externalEmailUser = await _userManager.FindByEmailAsync(externalEmail);
+                //}
+
+                //if (registeredUser != null && externalEmailUser != null)
+                //{
+                //    if (registeredUser.Id == externalEmailUser.Id)
+                //    {
+                //        // lien ket tai khoan dang nhap
+                //        var resultLink = await _userManager.AddLoginAsync(registeredUser, info);
+                //        if (resultLink.Succeeded)
+                //        {
+                //            await _signInManager.SignInAsync(registeredUser, isPersistent: false);
+                //            return LocalRedirect(returnUrl);
+                //        }
+                //    }
+                //    else
+                //    {
+                //        // registerUser =  externalEmailUser (externalEmail != Input.Email )
+                //        // info => user1(email1@gmail.com)
+                //        //    => user2(email2@gmail.com)
+                //        ModelState.AddModelError(string.Empty, "Khong the lien ket duoc tai khoan, hay sdung email khac");
+                //    }
+                //}
+
                 var user = CreateUser();
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);

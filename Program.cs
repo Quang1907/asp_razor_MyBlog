@@ -70,6 +70,29 @@ namespace ASP_RAZOR_5
                 options.AccessDeniedPath = "/not-accessdible";
             });
 
+
+            builder.Services.AddAuthentication()
+                    .AddGoogle(options =>
+                    {
+                        var googleConfig = builder.Configuration?.GetSection("Authentication:Google") ?? throw new Exception("Khong tim thay cau hinh google");
+                        options.ClientId = googleConfig["ClientId"];
+                        options.ClientSecret = googleConfig["ClientSecret"];
+                        // https://localhost:7139/signin-google
+                        options.CallbackPath = "/login-google";
+                    })
+                    .AddFacebook(options =>
+                    {
+                        IConfigurationSection fConfig = builder.Configuration?.GetSection("Authentication:Facebook") ?? throw new Exception("Khong tim thay cau hinh google");
+                        options.ClientId = fConfig["ClientId"];
+                        options.ClientSecret = fConfig["ClientSecret"];
+                        options.CallbackPath = "/login-facebook";
+                    })
+                    //.AddTwitter()
+                    //.AddMicrosoftAccount()
+                    ;
+
+
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -111,5 +134,7 @@ CREATE, READ, UPDATE, DELETE (CRUD)
     /Identity/Account/Login
     /Identity/Account/Manager
 
+
+    // https://localhost:7139/login-google callback Path
 
  */ 

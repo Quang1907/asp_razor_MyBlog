@@ -9,7 +9,7 @@ namespace ASP_RAZOR_5.Models
         public MyBlogContext(DbContextOptions<MyBlogContext> options) : base(options)
         {
             // .. 
-        }
+        } 
 
         public DbSet<Article> articles { get; set; }
 
